@@ -23,9 +23,9 @@ class AlienInvasion:
             # Watch for keyboard and mouse events.
             self.check_events()
             self.ship.update()
-            self.bullets.update()
+            self.update_bullets()
             self.update_screen()
-            
+        
     def check_events(self):
         """Respond to keypresses and mouse events."""
         for event in pygame.event.get():
@@ -56,9 +56,20 @@ class AlienInvasion:
     
     def fire_bullet(self):
         """Create a new bullet and add it to the bullets group."""
-        new_bullet = Bullet(self)
-        self.bullets.add(new_bullet)
-
+        if len(self.bullets) < self.settings.bullets_allowed:          
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
+    
+    def update_bullets(self):
+        """Update positon of bullets and get rid of old bullets"""
+        # Update bullet positons
+        self.bullets.update()
+            
+        # GEt rid of bullets that have disappeard.
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
+                
     def update_screen(self):
         """Update images on the screen, and flip to the new screen."""
         # Redraw the screen during each pass through the loop.
