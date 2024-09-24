@@ -27,6 +27,7 @@ class AlienInvasion:
             self.check_events()
             self.ship.update()
             self.update_bullets()
+            self.update_aliens()
             self.update_screen()
         
     def check_events(self):
@@ -73,6 +74,10 @@ class AlienInvasion:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
     
+    def update_aliens(self):
+        """Update the positions of all aliens in the fleet."""
+        self.aliens.update()
+
     def create_fleet(self):
         """Create the fleet of aliens."""
         # Create an alien and find the number of aliens in a row.
@@ -103,6 +108,12 @@ class AlienInvasion:
         self.aliens.add(alien)
         self.aliens.add(alien)
 
+    def check_fleet_edges(self):
+        """Respond appropriately if any aliens have reached and edge."""
+        for alien in self.aliens.sprites():
+            if alien.check_edgees():
+                pass
+    
     def update_screen(self):
         """Update images on the screen, and flip to the new screen."""
         # Redraw the screen during each pass through the loop.
